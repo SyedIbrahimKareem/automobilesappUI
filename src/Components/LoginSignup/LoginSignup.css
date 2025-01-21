@@ -94,3 +94,19 @@
     background : #eaeaea;
     color:#676767;
 }
+.submitlogsign{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 60px;
+    color: #fff;
+    background-color: #008000;
+    border-radius: 50px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 200px;
+    margin-bottom: 14px;
+    margin-top: -40px;
+}
