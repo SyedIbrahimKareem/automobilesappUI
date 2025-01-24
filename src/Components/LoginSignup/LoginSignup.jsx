@@ -1,11 +1,14 @@
-import React, { useState,useRef } from "react";
+import React, { useState,useRef,useContext } from "react";
 import './LoginSignup.css'
 import user_icon from '../Assests/person.png'
 import email_icon from '../Assests/email.png'
 import password_icon from '../Assests/password.png'
 import axios from 'axios'
+import {useAlert} from '../Alert/AlertContext'
+import CustomAlert from '../Alert/CustomAlert'
 const LoginSignup = () => {
-    const [action, setAction] = useState("Sign Up");
+    const{ alertMessage, showAlert, hideAlert } = useAlert();
+    const[action, setAction] = useState("Sign Up");
     const[actionSubmit, setSubmit]=useState("Submit");
     const[success,useSuccess]=useState(false);
     const[username,setUserName]=useState("");
@@ -21,6 +24,13 @@ const LoginSignup = () => {
     const handlePasswordChange=(value)=>{
         setPassword(value)
     };
+//      const [, setAlertContext] = useAlert();
+//   const showAlert = (type) => {
+//     setAlertContext({
+//       text: "Invalid username or password",
+//       type,
+//     });
+//   };
     const handlesSubmitLoginSignup=()=>{
         const loginData={
             userName:username,
@@ -31,6 +41,7 @@ const LoginSignup = () => {
             password:password,
             userEmail:email
         }
+
         const loginurl='https://localhost:44371/api/auth/login'
         const registerUrl='https://localhost:44371/api/User/AddUserDetails'
         if(action=='Login'){
@@ -42,7 +53,11 @@ const LoginSignup = () => {
                 setEmail("");
                 setUserName("");
                 setPassword("");
-                alert('Logged in successfully');
+                showAlert('Logged in Successfully...');
+            }
+            else{
+                //alert('Username or Password is incorrect..')
+                showAlert('Username or Password is incorrect...')
             }
         })
     }
@@ -53,8 +68,13 @@ const LoginSignup = () => {
                 setEmail("");
                 setUserName("");
                 setPassword("");
-                alert('Regisetered successfully, Please login now');
+                showAlert('Regisetered successfully, Please login now');
+                setAction("Login");
             }
+            else{
+                showAlert('username or email id is already exists...')
+            }
+
         })
     }
     }
@@ -92,6 +112,7 @@ const LoginSignup = () => {
             <div className="submitbtn">
                 <button onClick={()=> handlesSubmitLoginSignup()} className="submitlogsign">Submit</button>
             </div>
+            {alertMessage && <CustomAlert message={alertMessage} onClose={hideAlert} />}
         </div>
     )
 }

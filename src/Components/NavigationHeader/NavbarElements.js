@@ -13,13 +13,15 @@ export const Nav = styled.nav`
 `;
 
 export const NavLink = styled(Link)`
-    color: #808080;
+    color:rgb(255, 255, 255);
     display: flex;
     align-items: center;
     text-decoration: none;
     padding: 0 1rem;
     height: 100%;
     cursor: pointer;
+    font-size: larger !important;
+    color: white;
     &.active {
         color: #000000;
     }
@@ -76,7 +78,7 @@ export const NavBtnLink = styled(Link)`
     transition: all 0.2s ease-in-out;
     text-decoration: none;
     /* Second Nav */
-    margin-left: 585px;
+    margin-left: 555px;
     &:hover {
         transition: all 0.2s ease-in-out;
         background: #fff;
