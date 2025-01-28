@@ -8,6 +8,7 @@ import About from './Components/About'
 import ProductListing from './Components/Products/ProductListing';
 import { AlertProvider } from './Components/Alert/AlertContext';
 function App() {
+  localStorage.setItem("Username","");
   // return (
   //   <div>
   //     <LoginSignup/>
@@ -18,7 +19,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
-      <Route path="/ProductListing" element={<ProductListing />}/>
+      <Route Component={<ProductListing />}/>
       <Route path="/LoginSignup" element={<AlertProvider><LoginSignup /></AlertProvider>}/>
       
 

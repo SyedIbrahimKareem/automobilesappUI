@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useState} from "react";
 import './Navbar.css'
 import {
     Nav,
@@ -9,7 +9,17 @@ import {
     NavBtnLink,
 } from "./NavbarElements";
 
-const Navbar = () => {
+function Navbar () {
+      let setLoginName="Login / Sign Up";
+      let LoginName="Login / Sign Up";
+      if(localStorage.getItem("token")!=""){
+        setLoginName=localStorage.getItem("Username");
+        LoginName=setLoginName;
+      }
+      else{
+        setLoginName="Login / Sign Up";
+        LoginName=setLoginName;
+      }
     return (
         <>
             <Nav>
@@ -20,15 +30,16 @@ const Navbar = () => {
                     <NavLink to="/about" >
                         About
                     </NavLink>
-                    <NavLink to="/Products" activeStyle>
+                    <NavLink to="/Products/ProductListing" activeStyle>
                         Products
                     </NavLink>
                     {/* <NavLink to="/LoginSignUp" activeStyle>
                         Login / Register
                     </NavLink> */}
                     {/* Second Nav */}
-                    <NavBtnLink to='/LoginSignUp'>Login / Sign Up</NavBtnLink>
+                    <NavBtnLink id="LoginSignupID" to='/LoginSignUp' value={LoginName}>{LoginName}</NavBtnLink>
                     <div className="navbar-right">
+                        <NavBtn>
                         <a href="/cart" className="cart-icon">
                         <i class="fa-solid fa-cart-shopping"></i>
                             <span className="cart-count">2</span>
@@ -36,6 +47,7 @@ const Navbar = () => {
                         <a href="/account" className="user-icon">
                         <i class="fa-solid fa-user"></i>
                         </a>
+                        </NavBtn>
                     </div>
                 </NavMenu>
             </Nav>

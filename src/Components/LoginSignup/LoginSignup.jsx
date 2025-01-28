@@ -6,7 +6,23 @@ import password_icon from '../Assests/password.png'
 import axios from 'axios'
 import {useAlert} from '../Alert/AlertContext'
 import CustomAlert from '../Alert/CustomAlert'
+import setAuthToken from'./setAuthToken'
+import Url from '../Url'
+import validator from 'validator'
 const LoginSignup = () => {
+    const [errorMessage, setErrorMessage] = useState('') 
+  
+    const validate = (value) => { 
+  
+        if (validator.isStrongPassword(value, { 
+            minLength: 8, minLowercase: 1, 
+            minUppercase: 1, minNumbers: 1, minSymbols: 1 
+        })) { 
+            setErrorMessage('Is Strong Password') 
+        } else { 
+            setErrorMessage('Is Not Strong Password') 
+        } 
+    } 
     const{ alertMessage, showAlert, hideAlert } = useAlert();
     const[action, setAction] = useState("Sign Up");
     const[actionSubmit, setSubmit]=useState("Submit");
@@ -22,7 +38,9 @@ const LoginSignup = () => {
         setEmail(value)
     };
     const handlePasswordChange=(value)=>{
+        validate(value);
         setPassword(value)
+
     };
 //      const [, setAlertContext] = useAlert();
 //   const showAlert = (type) => {
@@ -42,8 +60,8 @@ const LoginSignup = () => {
             userEmail:email
         }
 
-        const loginurl='https://localhost:44371/api/auth/login'
-        const registerUrl='https://localhost:44371/api/User/AddUserDetails'
+        const loginurl="https://localhost:44371/api/auth/login"
+        const registerUrl="https://localhost:44371/api/User/AddUserDetails"
         if(action=='Login'){
         axios.post(loginurl,loginData).then((result)=>{
             debugger;
@@ -51,9 +69,12 @@ const LoginSignup = () => {
                 const tokenKey= result.data.data.token;
                 const refreshTokenKey= result.data.data.RefreshToken;
                 setEmail("");
+                localStorage.setItem("token", tokenKey);
                 setUserName("");
                 setPassword("");
                 showAlert('Logged in Successfully...');
+                localStorage.setItem("username",username);
+                setAuthToken(result.data.data.token);
             }
             else{
                 //alert('Username or Password is incorrect..')
@@ -99,6 +120,11 @@ const LoginSignup = () => {
                 <div className="input">
                     <img src={password_icon} alt="" />
                     <input type="password" placeholder="Password" onChange={(e)=>handlePasswordChange(e.target.value)}required/>
+                    {setPassword === '' ? null : 
+                    <span style={{ 
+                        fontWeight: 'bold', 
+                        color: 'red', 
+                    }}>{errorMessage}</span>} 
                 </div>
             </div>
             {action === "Sign Up" ? <div></div> :
